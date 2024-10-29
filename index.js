@@ -12,6 +12,9 @@ import {
 } from 'react-native-paper';
 import {name as appName} from './app.json';
 import App from './App';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const fontConfig = {
   fontFamily: 'Inter-VariableFont_opsz,wght',
@@ -32,9 +35,11 @@ export default function Main() {
   const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
 
   return (
-    <PaperProvider theme={theme}>
-      <App />
-    </PaperProvider>
+    <QueryClientProvider client={queryClient}>
+      <PaperProvider theme={theme}>
+        <App />
+      </PaperProvider>
+    </QueryClientProvider>
   );
 }
 
