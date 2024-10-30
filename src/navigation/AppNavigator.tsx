@@ -25,8 +25,8 @@ function AppNavigator() {
           height: 60,
           paddingBottom: 6,
           paddingTop: 6,
-          backgroundColor: theme.colors.surface,
-          elevation: 0,
+          backgroundColor: theme.colors.elevation.level1,
+          // elevation: 0,
           borderTopWidth: 0,
         },
         tabBarLabelStyle: {
