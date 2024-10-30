@@ -66,9 +66,7 @@ function RootNavigator() {
             <RootStack.Screen
               name="Main"
               component={AppNavigator}
-              options={{
-                headerShown: false,
-              }}
+              options={{headerShown: false}}
             />
             <RootStack.Screen
               name="Details"

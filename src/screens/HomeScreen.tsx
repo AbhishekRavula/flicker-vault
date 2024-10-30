@@ -23,7 +23,7 @@ const HomeScreen = () => {
 
   const popularMovies = useQuery({
     queryKey: ['popularMovies'],
-    queryFn: fetchPopularMovies,
+    queryFn: () => fetchPopularMovies(),
   });
 
   const trendingMovies = useQuery({

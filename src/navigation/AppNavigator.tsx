@@ -53,6 +53,11 @@ function AppNavigator() {
             <SearchIcon width={24} height={24} fill={color} />
           ),
           tabBarLabel: 'Search',
+          headerShown: true,
+          headerStyle: {backgroundColor: theme.colors.surface},
+          headerTintColor: theme.colors.onSurface,
+          headerTitleStyle: {fontWeight: '700', fontSize: 18},
+          headerTitleAlign: 'center',
         }}
       />
       <Tab.Screen
