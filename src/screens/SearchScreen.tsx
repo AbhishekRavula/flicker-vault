@@ -11,6 +11,7 @@ import {debounce} from '../utils/commonUtils';
 import {useAppTheme} from '../hooks/useAppTheme';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 type ProfileScreenProps = CompositeScreenProps<
   BottomTabScreenProps<TabParamList, 'Search'>,
@@ -32,6 +33,8 @@ const CARD_HEIGHT = CARD_WIDTH * 1.5;
 
 const SearchScreen = ({navigation}: ProfileScreenProps) => {
   const {theme} = useAppTheme();
+  const {t} = useTranslation();
+
   const [debouncedSearchQuery, setSearchQuery] = useState('');
   const [searchInput, setSearchInput] = useState('');
 
@@ -96,7 +99,7 @@ const SearchScreen = ({navigation}: ProfileScreenProps) => {
     if (isError) {
       return (
         <View style={styles.centerContainer}>
-          <Text>Error loading movies. Please try again.</Text>
+          <Text>{t('Error loading movies. Please try again.')}</Text>
         </View>
       );
     }
@@ -104,14 +107,14 @@ const SearchScreen = ({navigation}: ProfileScreenProps) => {
     if (debouncedSearchQuery.length === 0) {
       return (
         <View style={styles.centerContainer}>
-          <Text>Search for your favorite movies</Text>
+          <Text>{t('Search for your favorite movies')}</Text>
         </View>
       );
     }
 
     return (
       <View style={styles.centerContainer}>
-        <Text>No movies found</Text>
+        <Text>{t('No movies found')}</Text>
       </View>
     );
   };
@@ -126,7 +129,7 @@ const SearchScreen = ({navigation}: ProfileScreenProps) => {
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.surface}]}>
       <Searchbar
-        placeholder="Search for a title..."
+        placeholder={t('Search for a title...')}
         onChangeText={handleSearch}
         value={searchInput}
         style={styles.searchbar}

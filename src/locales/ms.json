@@ -1,5 +1,19 @@
 {
-  "Login": "Log masuk",
+  "Login": "Log Masuk",
   "Popular": "Popular",
-  "Dark Theme": "Tema Gelap"
-}
+  "Dark Theme": "Tema Gelap",
+  "Home": "Laman Utama",
+  "Search": "Carian",
+  "Favorites": "Kegemaran",
+  "Settings": "Tetapan",
+  "Error loading movies. Please try again.": "Ralat memuatkan filem. Sila cuba lagi.",
+  "Search for your favorite movies": "Cari filem kegemaran anda",
+  "No movies found": "Tiada filem dijumpai",
+  "Search for a title...": "Cari tajuk...",
+  "Remove": "Tanggalkan",
+  "No favorite movies yet.": "Tiada filem kegemaran lagi.",
+  "Language": "Bahasa",
+  "English": "Inggeris",
+  "Malay": "Melayu",
+  "Help": "Bantuan"
+  }

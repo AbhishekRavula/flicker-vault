@@ -10,6 +10,7 @@ import {Movie} from './HomeScreen';
 import {useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../navigation/RootNavigator';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useTranslation} from 'react-i18next';
 
 type DetailScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -25,6 +26,7 @@ const MovieCard = ({movie, onRemove}: {movie: Movie; onRemove: () => void}) => {
   const [menuVisible, setMenuVisible] = React.useState(false);
   const {theme} = useAppTheme();
   const navigation = useNavigation<DetailScreenNavigationProp>();
+  const {t} = useTranslation();
 
   const navigateToMovieDetails = () => {
     navigation.navigate('Details', {movie});
@@ -61,7 +63,7 @@ const MovieCard = ({movie, onRemove}: {movie: Movie; onRemove: () => void}) => {
             onRemove();
             setMenuVisible(false);
           }}
-          title="Remove"
+          title={t('Remove')}
         />
       </Menu>
     </Pressable>
@@ -69,7 +71,9 @@ const MovieCard = ({movie, onRemove}: {movie: Movie; onRemove: () => void}) => {
 };
 
 const FavoritesScreen = () => {
+  const {t} = useTranslation();
   const {theme} = useAppTheme();
+
   const {favoriteMovieIds, removeFavoriteMovieId} = useFavoriteMovies();
 
   const {data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage} =
@@ -116,7 +120,9 @@ const FavoritesScreen = () => {
   if (favoriteMovieIds.length === 0) {
     return (
       <View style={[styles.container, {backgroundColor: theme.colors.surface}]}>
-        <Text style={{textAlign: 'center'}}>No favorite movies yet.</Text>
+        <Text style={{textAlign: 'center'}}>
+          {t('No favorite movies yet.')}
+        </Text>
       </View>
     );
   }

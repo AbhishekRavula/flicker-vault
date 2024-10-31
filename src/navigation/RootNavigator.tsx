@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import {Text} from 'react-native-paper';
+import {ActivityIndicator} from 'react-native-paper';
 import '../../i18n';
 import {NavigationContainer} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -49,7 +49,6 @@ function RootNavigator() {
   const genres = useQuery({
     queryKey: ['genreNamesofMovies'],
     queryFn: fetchGenreNamesofMovies,
-    enabled: isAuthenticated,
     select: data => {
       const genres = (data?.genres || []) as Genre[];
       return genres.reduce((acc, genre) => {
@@ -57,12 +56,13 @@ function RootNavigator() {
         return acc;
       }, {} as Record<number, string>);
     },
+    enabled: isAuthenticated,
   });
 
   if (loading) {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>Loading..</Text>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
       </View>
     );
   }

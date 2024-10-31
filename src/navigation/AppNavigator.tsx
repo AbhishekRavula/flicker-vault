@@ -10,11 +10,13 @@ import FavoritesIcon from '../assets/icons/Favorites.svg';
 import SettingsIcon from '../assets/icons/Settings.svg';
 import {useAppTheme} from '../hooks/useAppTheme';
 import {TabParamList} from './RootNavigator';
+import {useTranslation} from 'react-i18next';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
 function AppNavigator() {
   const {theme} = useAppTheme();
+  const {t} = useTranslation();
 
   return (
     <Tab.Navigator
@@ -37,7 +39,7 @@ function AppNavigator() {
         },
       }}>
       <Tab.Screen
-        name="Home"
+        name={t('Home') as 'Home'}
         component={HomeScreen}
         options={{
           tabBarIcon: ({color, size}) => (
@@ -46,7 +48,7 @@ function AppNavigator() {
         }}
       />
       <Tab.Screen
-        name="Search"
+        name={t('Search') as 'Search'}
         component={SearchScreen}
         options={{
           tabBarIcon: ({color, size}) => (
@@ -60,7 +62,7 @@ function AppNavigator() {
         }}
       />
       <Tab.Screen
-        name="Favorites"
+        name={t('Favorites') as 'Favorites'}
         component={FavoritesScreen}
         options={{
           tabBarIcon: ({color, size}) => (
@@ -74,7 +76,7 @@ function AppNavigator() {
         }}
       />
       <Tab.Screen
-        name="Settings"
+        name={t('Settings') as 'Settings'}
         component={SettingsScreen}
         options={{
           tabBarIcon: ({color, size}) => (

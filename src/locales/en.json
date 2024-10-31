@@ -1,5 +1,19 @@
 {
   "Login": "Login",
   "Popular": "Popular",
-  "Dark Theme": "Dark Theme"
+  "Dark Theme": "Dark Theme",
+  "Home": "Home",
+  "Search": "Search",
+  "Favorites": "Favorites",
+  "Settings": "Settings",
+  "Error loading movies. Please try again.": "Error loading movies. Please try again.",
+  "Search for your favorite movies": "Search for your favorite movies",
+  "No movies found": "No movies found",
+  "Search for a title...": "Search for a title...",
+  "Remove": "Remove",
+  "No favorite movies yet.": "No favorite movies yet.",
+  "Language": "Language",
+  "English": "English",
+  "Malay": "Malay",
+  "Help": "Help"
 }

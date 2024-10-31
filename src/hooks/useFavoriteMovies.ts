@@ -8,7 +8,9 @@ import {
 export const useFavoriteMovies = (): FavoritesContextType => {
   const context = useContext(FavoritesContext);
   if (!context) {
-    throw new Error('useFavorites must be used within a FavoritesProvider');
+    throw new Error(
+      'useFavoriteMovies must be used within a FavoriteMoviesProvider',
+    );
   }
   return context;
 };

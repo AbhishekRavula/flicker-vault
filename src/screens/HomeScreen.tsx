@@ -7,6 +7,7 @@ import {
 } from '../services/movieService';
 import MovieList from '../components/MovieList';
 import {useAppTheme} from '../hooks/useAppTheme';
+import {useTranslation} from 'react-i18next';
 
 export interface Movie {
   id: string;
@@ -24,6 +25,7 @@ export interface Movie {
 
 const HomeScreen = () => {
   const {theme} = useAppTheme();
+  const {t} = useTranslation();
 
   const popularMovies = useQuery({
     queryKey: ['popularMovies'],
@@ -51,7 +53,7 @@ const HomeScreen = () => {
           resizeMode={FastImage.resizeMode.cover}
         />
       </View>
-      <MovieList title="Popular" movies={moviesList} />
+      <MovieList title={t('Popular')} movies={moviesList} />
     </SafeAreaView>
   );
 };
