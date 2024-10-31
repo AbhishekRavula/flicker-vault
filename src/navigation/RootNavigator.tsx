@@ -16,6 +16,7 @@ import {fetchGenreNamesofMovies} from '../services/movieService';
 export type RootStackParamList = {
   Details: {movie: Movie};
   Main: undefined;
+  Search: {movie: Movie};
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
