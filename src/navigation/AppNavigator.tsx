@@ -1,5 +1,4 @@
 import React from 'react';
-import {useTheme} from 'react-native-paper';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
@@ -9,11 +8,12 @@ import HomeIcon from '../assets/icons/Home.svg';
 import SearchIcon from '../assets/icons/Search.svg';
 import FavoritesIcon from '../assets/icons/Favorites.svg';
 import SettingsIcon from '../assets/icons/Settings.svg';
+import {useAppTheme} from '../hooks/useAppTheme';
 
 const Tab = createBottomTabNavigator();
 
 function AppNavigator() {
-  const theme = useTheme();
+  const {theme} = useAppTheme();
 
   return (
     <Tab.Navigator
@@ -67,7 +67,6 @@ function AppNavigator() {
           tabBarIcon: ({color, size}) => (
             <FavoritesIcon width={24} height={24} fill={color} />
           ),
-          tabBarLabel: 'Favorites',
         }}
       />
       <Tab.Screen
@@ -77,7 +76,11 @@ function AppNavigator() {
           tabBarIcon: ({color, size}) => (
             <SettingsIcon width={24} height={24} fill={color} />
           ),
-          tabBarLabel: 'Settings',
+          headerShown: true,
+          headerStyle: {backgroundColor: theme.colors.surface},
+          headerTintColor: theme.colors.onSurface,
+          headerTitleStyle: {fontWeight: '700', fontSize: 18},
+          headerTitleAlign: 'center',
         }}
       />
     </Tab.Navigator>

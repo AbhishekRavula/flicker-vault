@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import {Text, useTheme} from 'react-native-paper';
+import {Text} from 'react-native-paper';
 import '../../i18n';
 import {NavigationContainer} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,6 +12,7 @@ import {Movie} from '../screens/HomeScreen';
 import {Genre, GenreContext} from '../contexts/GenreContext';
 import {useQuery} from '@tanstack/react-query';
 import {fetchGenreNamesofMovies} from '../services/movieService';
+import {useAppTheme} from '../hooks/useAppTheme';
 
 export type RootStackParamList = {
   Details: {movie: Movie};
@@ -22,7 +23,7 @@ export type RootStackParamList = {
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const theme = useTheme();
+  const {theme} = useAppTheme();
 
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [loading, setLoading] = useState(true);

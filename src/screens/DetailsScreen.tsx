@@ -2,14 +2,15 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../navigation/RootNavigator';
-import {Divider, Text, useTheme} from 'react-native-paper';
+import {Divider, Text} from 'react-native-paper';
 import FastImage from 'react-native-fast-image';
 import {useGenres} from '../contexts/GenreContext';
+import {useAppTheme} from '../hooks/useAppTheme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
 const DetailsScreen = ({route, navigation}: Props) => {
-  const theme = useTheme();
+  const {theme} = useAppTheme();
   const genres = useGenres();
 
   const movie = route.params.movie;

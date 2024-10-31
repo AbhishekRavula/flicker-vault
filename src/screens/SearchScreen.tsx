@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from 'react';
 import {View, FlatList, StyleSheet, Dimensions, Pressable} from 'react-native';
-import {useTheme, Searchbar, ActivityIndicator, Text} from 'react-native-paper';
+import {Searchbar, ActivityIndicator, Text} from 'react-native-paper';
 import {useInfiniteQuery} from '@tanstack/react-query';
 import {fetchSearchMovies} from '../services/movieService';
 import FastImage from 'react-native-fast-image';
@@ -8,6 +8,7 @@ import {Movie} from './HomeScreen';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../navigation/RootNavigator';
 import {debounce} from '../utils/commonUtils';
+import {useAppTheme} from '../hooks/useAppTheme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Search'>;
 
@@ -15,7 +16,7 @@ const {width} = Dimensions.get('window');
 // Number of columns in the grid
 const COLUMN_COUNT = 3;
 
-// Spacing between cards (in pixels)
+// Spacing between cards
 const SPACING = 10;
 
 // The width of each card
@@ -25,7 +26,7 @@ const CARD_WIDTH = (width - (COLUMN_COUNT + 1) * SPACING) / COLUMN_COUNT;
 const CARD_HEIGHT = CARD_WIDTH * 1.5;
 
 const SearchScreen = ({navigation}: Props) => {
-  const theme = useTheme();
+  const {theme} = useAppTheme();
   const [debouncedSearchQuery, setSearchQuery] = useState('');
   const [searchInput, setSearchInput] = useState('');
 

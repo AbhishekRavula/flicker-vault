@@ -1,12 +1,12 @@
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {useTheme} from 'react-native-paper';
 import {useQuery} from '@tanstack/react-query';
 import {
   fetchPopularMovies,
   fetchTrendingMovies,
 } from '../services/movieService';
 import MovieList from '../components/MovieList';
+import {useAppTheme} from '../hooks/useAppTheme';
 
 export interface Movie {
   id: string;
@@ -19,7 +19,7 @@ export interface Movie {
 }
 
 const HomeScreen = () => {
-  const theme = useTheme();
+  const {theme} = useAppTheme();
 
   const popularMovies = useQuery({
     queryKey: ['popularMovies'],
