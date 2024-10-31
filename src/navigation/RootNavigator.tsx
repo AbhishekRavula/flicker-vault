@@ -13,11 +13,18 @@ import {Genre, GenreContext} from '../contexts/GenreContext';
 import {useQuery} from '@tanstack/react-query';
 import {fetchGenreNamesofMovies} from '../services/movieService';
 import {useAppTheme} from '../hooks/useAppTheme';
+import {FavoriteMoviesProvider} from '../contexts/FavoriteMoviesContext';
 
 export type RootStackParamList = {
-  Details: {movie: Movie};
   Main: undefined;
-  Search: {movie: Movie};
+  Details: {movie: Movie};
+};
+
+export type TabParamList = {
+  Home: undefined;
+  Search: undefined;
+  Favorites: undefined;
+  Settings: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -63,30 +70,32 @@ function RootNavigator() {
   return (
     <NavigationContainer>
       {isAuthenticated ? (
-        <GenreContext.Provider value={genres.data || {}}>
-          <RootStack.Navigator>
-            <RootStack.Screen
-              name="Main"
-              component={AppNavigator}
-              options={{headerShown: false}}
-            />
-            <RootStack.Screen
-              name="Details"
-              component={DetailsScreen}
-              options={{
-                headerStyle: {
-                  backgroundColor: theme.colors.surface,
-                },
-                headerTintColor: theme.colors.onSurface,
-                headerTitleStyle: {
-                  fontWeight: '700',
-                  fontSize: 18,
-                },
-                headerTitleAlign: 'center',
-              }}
-            />
-          </RootStack.Navigator>
-        </GenreContext.Provider>
+        <FavoriteMoviesProvider>
+          <GenreContext.Provider value={genres.data || {}}>
+            <RootStack.Navigator>
+              <RootStack.Screen
+                name="Main"
+                component={AppNavigator}
+                options={{headerShown: false}}
+              />
+              <RootStack.Screen
+                name="Details"
+                component={DetailsScreen}
+                options={{
+                  headerStyle: {
+                    backgroundColor: theme.colors.surface,
+                  },
+                  headerTintColor: theme.colors.onSurface,
+                  headerTitleStyle: {
+                    fontWeight: '700',
+                    fontSize: 18,
+                  },
+                  headerTitleAlign: 'center',
+                }}
+              />
+            </RootStack.Navigator>
+          </GenreContext.Provider>
+        </FavoriteMoviesProvider>
       ) : (
         <AuthNavigator />
       )}

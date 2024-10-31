@@ -1,23 +1,38 @@
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../navigation/RootNavigator';
-import {Divider, Text} from 'react-native-paper';
+import {Divider, Icon, Text} from 'react-native-paper';
 import FastImage from 'react-native-fast-image';
 import {useGenres} from '../contexts/GenreContext';
 import {useAppTheme} from '../hooks/useAppTheme';
+import {useFavoriteMovies} from '../hooks/useFavoriteMovies';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
 const DetailsScreen = ({route, navigation}: Props) => {
   const {theme} = useAppTheme();
   const genres = useGenres();
+  const {isFavorite, saveFavoriteMovieId, removeFavoriteMovieId} =
+    useFavoriteMovies();
 
   const movie = route.params.movie;
+  const isFavoriteMovie = isFavorite(movie.id);
 
   useEffect(() => {
     navigation.setOptions({title: movie.title});
   }, [navigation, movie]);
+
+  const handleFavorite = () => {
+    if (isFavoriteMovie) {
+      removeFavoriteMovieId(movie.id);
+    } else {
+      saveFavoriteMovieId(movie.id);
+    }
+  };
+
+  const movieGenreIds =
+    movie.genre_ids || movie.genres?.map(genre => genre.id) || [];
 
   return (
     <ScrollView
@@ -35,7 +50,16 @@ const DetailsScreen = ({route, navigation}: Props) => {
         />
       </View>
       <View style={styles.detailsContainer}>
-        <Text style={styles.title}>{movie.title}</Text>
+        <View style={styles.titleAndFavoriteContainer}>
+          <Text style={styles.title}>{movie.title}</Text>
+          <TouchableOpacity onPress={handleFavorite}>
+            <Icon
+              source={isFavoriteMovie ? 'heart' : 'heart-outline'}
+              size={24}
+              color={theme.colors.onSurface}
+            />
+          </TouchableOpacity>
+        </View>
 
         <View style={styles.detailsSubTextContainer}>
           <Text style={styles.detailsSubText}>{movie.release_date}</Text>
@@ -44,24 +68,21 @@ const DetailsScreen = ({route, navigation}: Props) => {
             {movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}
           </Text>
           <Divider style={styles.divider} />
-          {movie.genre_ids.map((id, index) => {
+          {movieGenreIds.map((id, index) => {
             const genreName = genres[id];
             return genreName ? (
               <React.Fragment key={id}>
                 <Text style={styles.detailsSubText} numberOfLines={1}>
                   {genreName}
                 </Text>
-                {index !== movie.genre_ids.length - 1 && (
+                {index !== movieGenreIds.length - 1 && (
                   <Divider style={styles.divider} />
                 )}
               </React.Fragment>
             ) : null;
           })}
         </View>
-
-        <Text style={{fontWeight: '400', fontSize: 13, textAlign: 'justify'}}>
-          {movie.overview}
-        </Text>
+        <Text style={styles.overview}>{movie.overview}</Text>
       </View>
     </ScrollView>
   );
@@ -104,5 +125,18 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '700',
     fontSize: 20,
+    flexShrink: 1,
+    maxWidth: '90%',
+    flexWrap: 'wrap',
+  },
+  titleAndFavoriteContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  overview: {
+    fontWeight: '400',
+    fontSize: 13,
+    textAlign: 'justify',
   },
 });

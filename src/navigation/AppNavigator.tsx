@@ -9,8 +9,9 @@ import SearchIcon from '../assets/icons/Search.svg';
 import FavoritesIcon from '../assets/icons/Favorites.svg';
 import SettingsIcon from '../assets/icons/Settings.svg';
 import {useAppTheme} from '../hooks/useAppTheme';
+import {TabParamList} from './RootNavigator';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<TabParamList>();
 
 function AppNavigator() {
   const {theme} = useAppTheme();
@@ -42,7 +43,6 @@ function AppNavigator() {
           tabBarIcon: ({color, size}) => (
             <HomeIcon width={24} height={24} fill={color} />
           ),
-          tabBarLabel: 'Home',
         }}
       />
       <Tab.Screen
@@ -52,7 +52,6 @@ function AppNavigator() {
           tabBarIcon: ({color, size}) => (
             <SearchIcon width={24} height={24} fill={color} />
           ),
-          tabBarLabel: 'Search',
           headerShown: true,
           headerStyle: {backgroundColor: theme.colors.surface},
           headerTintColor: theme.colors.onSurface,
@@ -67,6 +66,11 @@ function AppNavigator() {
           tabBarIcon: ({color, size}) => (
             <FavoritesIcon width={24} height={24} fill={color} />
           ),
+          headerShown: true,
+          headerStyle: {backgroundColor: theme.colors.surface},
+          headerTintColor: theme.colors.onSurface,
+          headerTitleStyle: {fontWeight: '700', fontSize: 18},
+          headerTitleAlign: 'center',
         }}
       />
       <Tab.Screen
