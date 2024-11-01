@@ -1,5 +1,7 @@
 import React, {createContext, useState, useEffect, ReactNode} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {StatusBar} from 'react-native';
+import {useAppTheme} from '../hooks/useAppTheme';
 
 export interface FavoritesContextType {
   favoriteMovieIds: string[];
@@ -21,6 +23,7 @@ const FAVORITES_KEY = 'favorite-movie-ids';
 export const FavoriteMoviesProvider: React.FC<FavoritesProviderProps> = ({
   children,
 }) => {
+  const {theme} = useAppTheme();
   const [favoriteMovieIds, setFavoriteMovieIds] = useState<string[]>([]);
 
   // Load favorite movie IDs from AsyncStorage on initial mount
@@ -83,6 +86,10 @@ export const FavoriteMoviesProvider: React.FC<FavoritesProviderProps> = ({
         removeFavoriteMovieId,
         isFavorite,
       }}>
+      <StatusBar
+        backgroundColor={theme.colors.surface}
+        barStyle={theme.dark ? 'light-content' : 'dark-content'}
+      />
       {children}
     </FavoritesContext.Provider>
   );

@@ -64,11 +64,7 @@ function RootNavigator() {
               <RootStack.Screen
                 name="Main"
                 component={AppNavigator}
-                options={{
-                  headerShown: false,
-                  statusBarStyle: theme.dark ? 'light' : 'dark',
-                  statusBarColor: theme.colors.surface,
-                }}
+                options={{headerShown: false}}
               />
               <RootStack.Screen
                 name="Details"
@@ -78,8 +74,6 @@ function RootNavigator() {
                   headerTintColor: theme.colors.onSurface,
                   headerTitleStyle: styles.headerTitle,
                   headerTitleAlign: 'center',
-                  statusBarStyle: theme.dark ? 'light' : 'dark',
-                  statusBarColor: theme.colors.surface,
                 }}
               />
             </RootStack.Navigator>
