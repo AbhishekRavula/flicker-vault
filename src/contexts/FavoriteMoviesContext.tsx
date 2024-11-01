@@ -26,8 +26,6 @@ export const FavoriteMoviesProvider: React.FC<FavoritesProviderProps> = ({
   // Load favorite movie IDs from AsyncStorage on initial mount
   useEffect(() => {
     const loadFavorites = async () => {
-      console.log('loadFavorites');
-
       try {
         const jsonValue = await AsyncStorage.getItem(FAVORITES_KEY);
 

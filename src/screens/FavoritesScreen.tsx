@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {View, StyleSheet, FlatList, Dimensions, Pressable} from 'react-native';
 import {useAppTheme} from '../hooks/useAppTheme';
 import {Text, IconButton, Menu, ActivityIndicator} from 'react-native-paper';
@@ -6,11 +6,12 @@ import {useFavoriteMovies} from '../hooks/useFavoriteMovies';
 import {useInfiniteQuery} from '@tanstack/react-query';
 import FastImage from 'react-native-fast-image';
 import {fetchMovieDetailsById} from '../services/movieService';
-import {Movie} from './HomeScreen';
 import {useNavigation} from '@react-navigation/native';
-import {RootStackParamList} from '../navigation/RootNavigator';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useTranslation} from 'react-i18next';
+import {getImageUrl} from '../utils/commonUtils';
+import {MoviePosterSize} from '../constants/enums';
+import {Movie, RootStackParamList} from '../constants/types';
 
 type DetailScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -36,7 +37,7 @@ const MovieCard = ({movie, onRemove}: {movie: Movie; onRemove: () => void}) => {
     <Pressable style={styles.card} onPress={navigateToMovieDetails}>
       <FastImage
         style={styles.poster}
-        source={{uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`}}
+        source={{uri: getImageUrl(MoviePosterSize.w500, movie.poster_path)}}
         resizeMode={FastImage.resizeMode.cover}
       />
       <View style={styles.movieInfo}>
@@ -84,7 +85,7 @@ const FavoritesScreen = () => {
         const end = start + 20;
         const movieIds = favoriteMovieIds.slice(start, end);
         const movies = await Promise.all(
-          movieIds.map(id => fetchMovieDetailsById(id.toString())),
+          movieIds.map(id => fetchMovieDetailsById(id)),
         );
         return movies;
       },
@@ -96,11 +97,14 @@ const FavoritesScreen = () => {
     });
 
   const handleRemove = (movieId: string) => {
-    removeFavoriteMovieId(movieId.toString());
+    removeFavoriteMovieId(movieId);
   };
 
-  const renderItem = ({item}: {item: Movie}) => (
-    <MovieCard movie={item} onRemove={() => handleRemove(item.id)} />
+  const renderItem = useCallback(
+    ({item}: {item: Movie}) => (
+      <MovieCard movie={item} onRemove={() => handleRemove(item.id)} />
+    ),
+    [],
   );
 
   const loadMore = () => {

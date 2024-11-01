@@ -9,8 +9,9 @@ import SearchIcon from '../assets/icons/Search.svg';
 import FavoritesIcon from '../assets/icons/Favorites.svg';
 import SettingsIcon from '../assets/icons/Settings.svg';
 import {useAppTheme} from '../hooks/useAppTheme';
-import {TabParamList} from './RootNavigator';
 import {useTranslation} from 'react-i18next';
+import {StyleSheet} from 'react-native';
+import {TabParamList} from '../constants/types';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
@@ -21,76 +22,73 @@ function AppNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: theme.colors.onSurfaceVariant,
         tabBarStyle: {
-          height: 60,
-          paddingBottom: 6,
-          paddingTop: 6,
+          ...styles.tabBarStyle,
           backgroundColor: theme.colors.elevation.level1,
-          // elevation: 0,
-          borderTopWidth: 0,
         },
-        tabBarLabelStyle: {
-          fontSize: 10,
-          fontWeight: '500',
-          fontFamily: 'Inter-VariableFont_opsz,wght',
-        },
+        tabBarLabelStyle: styles.tabBarLabelStyle,
+        headerStyle: {backgroundColor: theme.colors.surface},
+        headerTintColor: theme.colors.onSurface,
+        headerTitleStyle: {fontWeight: '700', fontSize: 18},
+        headerTitleAlign: 'center',
       }}>
       <Tab.Screen
         name={t('Home') as 'Home'}
         component={HomeScreen}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({color}) => (
             <HomeIcon width={24} height={24} fill={color} />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen
         name={t('Search') as 'Search'}
         component={SearchScreen}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({color}) => (
             <SearchIcon width={24} height={24} fill={color} />
           ),
-          headerShown: true,
-          headerStyle: {backgroundColor: theme.colors.surface},
-          headerTintColor: theme.colors.onSurface,
-          headerTitleStyle: {fontWeight: '700', fontSize: 18},
-          headerTitleAlign: 'center',
         }}
       />
       <Tab.Screen
         name={t('Favorites') as 'Favorites'}
         component={FavoritesScreen}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({color}) => (
             <FavoritesIcon width={24} height={24} fill={color} />
           ),
-          headerShown: true,
-          headerStyle: {backgroundColor: theme.colors.surface},
-          headerTintColor: theme.colors.onSurface,
-          headerTitleStyle: {fontWeight: '700', fontSize: 18},
-          headerTitleAlign: 'center',
         }}
       />
       <Tab.Screen
         name={t('Settings') as 'Settings'}
         component={SettingsScreen}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({color}) => (
             <SettingsIcon width={24} height={24} fill={color} />
           ),
-          headerShown: true,
-          headerStyle: {backgroundColor: theme.colors.surface},
-          headerTintColor: theme.colors.onSurface,
-          headerTitleStyle: {fontWeight: '700', fontSize: 18},
-          headerTitleAlign: 'center',
         }}
       />
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBarStyle: {
+    height: 60,
+    paddingBottom: 6,
+    paddingTop: 6,
+    // elevation: 0,
+    borderTopWidth: 0,
+  },
+  tabBarLabelStyle: {
+    fontSize: 10,
+    fontWeight: '500',
+    fontFamily: 'Inter-VariableFont_opsz,wght',
+  },
+});
 
 export default AppNavigator;

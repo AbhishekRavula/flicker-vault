@@ -1,12 +1,14 @@
 import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../navigation/RootNavigator';
 import {Divider, Icon, Text} from 'react-native-paper';
 import FastImage from 'react-native-fast-image';
 import {useGenres} from '../contexts/GenreContext';
 import {useAppTheme} from '../hooks/useAppTheme';
 import {useFavoriteMovies} from '../hooks/useFavoriteMovies';
+import {MovieBackdropSize} from '../constants/enums';
+import {getImageUrl} from '../utils/commonUtils';
+import {RootStackParamList} from '../constants/types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
@@ -43,10 +45,10 @@ const DetailsScreen = ({route, navigation}: Props) => {
       <View style={styles.wallPosterContainer}>
         <FastImage
           source={{
-            uri: `https://image.tmdb.org/t/p/w780/${movie.poster_path}.jpg`,
+            uri: getImageUrl(MovieBackdropSize.w780, movie.backdrop_path),
           }}
           style={styles.wallPoster}
-          resizeMode={FastImage.resizeMode.stretch}
+          resizeMode={FastImage.resizeMode.cover}
         />
       </View>
       <View style={styles.detailsContainer}>

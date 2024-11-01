@@ -4,14 +4,14 @@ import {Searchbar, ActivityIndicator, Text} from 'react-native-paper';
 import {useInfiniteQuery} from '@tanstack/react-query';
 import {fetchSearchMovies} from '../services/movieService';
 import FastImage from 'react-native-fast-image';
-import {Movie} from './HomeScreen';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList, TabParamList} from '../navigation/RootNavigator';
-import {debounce} from '../utils/commonUtils';
+import {debounce, getImageUrl} from '../utils/commonUtils';
 import {useAppTheme} from '../hooks/useAppTheme';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
+import {MoviePosterSize} from '../constants/enums';
+import {Movie, RootStackParamList, TabParamList} from '../constants/types';
 
 type ProfileScreenProps = CompositeScreenProps<
   BottomTabScreenProps<TabParamList, 'Search'>,
@@ -72,22 +72,22 @@ const SearchScreen = ({navigation}: ProfileScreenProps) => {
     setSearchInput(text);
   };
 
-  const handleLoadMore = () => {
+  const handleLoadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  };
+  }, [hasNextPage, isFetchingNextPage]);
 
-  const renderFooter = () => {
+  const renderFooter = useCallback(() => {
     if (!isFetchingNextPage) return null;
     return (
       <View style={styles.loaderContainer}>
         <ActivityIndicator size="large" color={theme.colors.primary} />
       </View>
     );
-  };
+  }, [isFetchingNextPage]);
 
-  const renderEmptyState = () => {
+  const renderEmptyState = useCallback(() => {
     if (isLoading) {
       return (
         <View style={styles.centerContainer}>
@@ -117,9 +117,9 @@ const SearchScreen = ({navigation}: ProfileScreenProps) => {
         <Text>{t('No movies found')}</Text>
       </View>
     );
-  };
+  }, [debouncedSearchQuery, isLoading]);
 
-  const navigateToMovieDetails = (movie: any) => {
+  const navigateToMovieDetails = (movie: Movie) => {
     navigation.navigate('Details', {movie});
   };
 
@@ -146,7 +146,7 @@ const SearchScreen = ({navigation}: ProfileScreenProps) => {
             <FastImage
               style={[styles.cardWrapper]}
               source={{
-                uri: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
+                uri: getImageUrl(MoviePosterSize.w500, item.poster_path),
               }}
               resizeMode={FastImage.resizeMode.contain}
             />

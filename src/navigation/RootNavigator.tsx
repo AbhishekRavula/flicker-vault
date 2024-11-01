@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
 import '../../i18n';
 import {NavigationContainer} from '@react-navigation/native';
@@ -8,24 +8,12 @@ import AppNavigator from './AppNavigator';
 import AuthNavigator from './AuthNavigator';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DetailsScreen from '../screens/DetailsScreen';
-import {Movie} from '../screens/HomeScreen';
 import {Genre, GenreContext} from '../contexts/GenreContext';
 import {useQuery} from '@tanstack/react-query';
 import {fetchGenreNamesofMovies} from '../services/movieService';
 import {useAppTheme} from '../hooks/useAppTheme';
 import {FavoriteMoviesProvider} from '../contexts/FavoriteMoviesContext';
-
-export type RootStackParamList = {
-  Main: undefined;
-  Details: {movie: Movie};
-};
-
-export type TabParamList = {
-  Home: undefined;
-  Search: undefined;
-  Favorites: undefined;
-  Settings: undefined;
-};
+import {RootStackParamList} from '../constants/types';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -33,18 +21,18 @@ function RootNavigator() {
   const {theme} = useAppTheme();
 
   const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      // const token = await AsyncStorage.getItem('userToken');
-      const token = true;
-      setIsAuthenticated(!!token);
-      setLoading(false);
-    };
+  // useEffect(() => {
+  //   const checkAuthStatus = async () => {
+  //     // const token = await AsyncStorage.getItem('userToken');
+  //     const token = true;
+  //     setIsAuthenticated(!!token);
+  //     setLoading(false);
+  //   };
 
-    checkAuthStatus();
-  }, []);
+  //   checkAuthStatus();
+  // }, []);
 
   const genres = useQuery({
     queryKey: ['genreNamesofMovies'],
@@ -61,7 +49,7 @@ function RootNavigator() {
 
   if (loading) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={theme.colors.primary} />
       </View>
     );
@@ -76,21 +64,22 @@ function RootNavigator() {
               <RootStack.Screen
                 name="Main"
                 component={AppNavigator}
-                options={{headerShown: false}}
+                options={{
+                  headerShown: false,
+                  statusBarStyle: theme.dark ? 'light' : 'dark',
+                  statusBarColor: theme.colors.surface,
+                }}
               />
               <RootStack.Screen
                 name="Details"
                 component={DetailsScreen}
                 options={{
-                  headerStyle: {
-                    backgroundColor: theme.colors.surface,
-                  },
+                  headerStyle: {backgroundColor: theme.colors.surface},
                   headerTintColor: theme.colors.onSurface,
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 18,
-                  },
+                  headerTitleStyle: styles.headerTitle,
                   headerTitleAlign: 'center',
+                  statusBarStyle: theme.dark ? 'light' : 'dark',
+                  statusBarColor: theme.colors.surface,
                 }}
               />
             </RootStack.Navigator>
@@ -102,5 +91,17 @@ function RootNavigator() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  headerTitle: {
+    fontWeight: '700',
+    fontSize: 18,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default RootNavigator;

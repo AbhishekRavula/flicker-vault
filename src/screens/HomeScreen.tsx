@@ -8,20 +8,8 @@ import {
 import MovieList from '../components/MovieList';
 import {useAppTheme} from '../hooks/useAppTheme';
 import {useTranslation} from 'react-i18next';
-
-export interface Movie {
-  id: string;
-  title: string;
-  poster_path: string;
-  overview: string;
-  release_date: string;
-  vote_average: number;
-  genre_ids: Array<number>;
-  genres?: Array<{
-    id: string;
-    name: string;
-  }>;
-}
+import {getImageUrl} from '../utils/commonUtils';
+import {MoviePosterSize} from '../constants/enums';
 
 const HomeScreen = () => {
   const {theme} = useAppTheme();
@@ -38,17 +26,14 @@ const HomeScreen = () => {
   });
 
   const moviesList = popularMovies.data?.results || [];
-  const wallPosterImage =
-    trendingMovies.data?.results?.[0]?.backdrop_path || '';
+  const wallPosterImage = trendingMovies.data?.results?.[0]?.poster_path || '';
 
   return (
     <SafeAreaView
       style={[styles.container, {backgroundColor: theme.colors.surface}]}>
       <View style={styles.wallPosterContainer}>
         <FastImage
-          source={{
-            uri: `https://image.tmdb.org/t/p/w1280/${wallPosterImage}.jpg`,
-          }}
+          source={{uri: getImageUrl(MoviePosterSize.w780, wallPosterImage)}}
           style={styles.wallPoster}
           resizeMode={FastImage.resizeMode.cover}
         />

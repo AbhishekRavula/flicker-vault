@@ -14,3 +14,7 @@ export function debounce<T extends (...args: any[]) => void>(
     }, delay);
   };
 }
+
+export const getImageUrl = (size: string, imageId: string) => {
+  return `https://image.tmdb.org/t/p/${size}/${imageId}.jpg`;
+};

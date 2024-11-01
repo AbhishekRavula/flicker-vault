@@ -1,10 +1,11 @@
 import {Pressable, StyleSheet, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {Movie} from '../screens/HomeScreen';
 import {useLayoutEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../navigation/RootNavigator';
+import {getImageUrl} from '../utils/commonUtils';
+import {MoviePosterSize} from '../constants/enums';
+import {Movie, RootStackParamList} from '../constants/types';
 
 type DetailsScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -39,7 +40,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie}) => {
             styles.poster,
             {width: viewHeight * (2 / 3), height: viewHeight},
           ]}
-          source={{uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`}}
+          source={{uri: getImageUrl(MoviePosterSize.w500, movie.poster_path)}}
           resizeMode={FastImage.resizeMode.contain}
         />
       </Pressable>
