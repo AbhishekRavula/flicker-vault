@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
 import '../../i18n';
 import {NavigationContainer} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppNavigator from './AppNavigator';
 import AuthNavigator from './AuthNavigator';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';

@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {createContext, useState, ReactNode, useEffect} from 'react';
 import {useColorScheme} from 'react-native';
 import {
@@ -8,6 +7,7 @@ import {
   MD3LightTheme,
   configureFonts,
 } from 'react-native-paper';
+import {storage} from '../utils/storageUtils';
 
 export interface ThemeContextType {
   theme: MD3Theme;
@@ -53,24 +53,21 @@ const APP_THEME_KEY = 'app-theme';
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({children}) => {
   const colorScheme = useColorScheme();
-  const [appTheme, setAppTheme] = useState<'light' | 'dark' | null>(null);
+  const [appTheme, setAppTheme] = useState<'light' | 'dark'>(getAppTheme);
 
-  useEffect(() => {
-    const loadThemePreference = async () => {
-      const storedTheme = (await AsyncStorage.getItem(APP_THEME_KEY)) as
-        | 'light'
-        | 'dark'
-        | null;
-      setAppTheme(storedTheme || colorScheme || 'light');
-    };
+  function getAppTheme() {
+    const storedTheme = storage.getString(APP_THEME_KEY) as
+      | 'light'
+      | 'dark'
+      | null;
 
-    loadThemePreference();
-  }, [colorScheme]);
+    return storedTheme || colorScheme || 'light';
+  }
 
-  const toggleTheme = async () => {
+  const toggleTheme = () => {
     const updatedTheme = appTheme === 'light' ? 'dark' : 'light';
     setAppTheme(updatedTheme);
-    await AsyncStorage.setItem(APP_THEME_KEY, updatedTheme);
+    storage.set(APP_THEME_KEY, updatedTheme);
   };
 
   const theme = appTheme === 'dark' ? DarkerTheme : LightTheme;

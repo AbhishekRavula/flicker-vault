@@ -1,12 +1,12 @@
 import React, {createContext, useState, useEffect, ReactNode} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StatusBar} from 'react-native';
 import {useAppTheme} from '../hooks/useAppTheme';
+import {storage} from '../utils/storageUtils';
 
 export interface FavoritesContextType {
   favoriteMovieIds: string[];
-  saveFavoriteMovieId: (movieId: string) => Promise<void>;
-  removeFavoriteMovieId: (movieId: string) => Promise<void>;
+  saveFavoriteMovieId: (movieId: string) => void;
+  removeFavoriteMovieId: (movieId: string) => void;
   isFavorite: (movieId: string) => boolean;
 }
 
@@ -26,11 +26,11 @@ export const FavoriteMoviesProvider: React.FC<FavoritesProviderProps> = ({
   const {theme} = useAppTheme();
   const [favoriteMovieIds, setFavoriteMovieIds] = useState<string[]>([]);
 
-  // Load favorite movie IDs from AsyncStorage on initial mount
+  // Load favorite movie IDs from local storage on initial mount
   useEffect(() => {
-    const loadFavorites = async () => {
+    const loadFavorites = () => {
       try {
-        const jsonValue = await AsyncStorage.getItem(FAVORITES_KEY);
+        const jsonValue = storage.getString(FAVORITES_KEY);
 
         if (jsonValue != null) {
           setFavoriteMovieIds(JSON.parse(jsonValue));
@@ -44,15 +44,12 @@ export const FavoriteMoviesProvider: React.FC<FavoritesProviderProps> = ({
   }, []);
 
   // Save a new favorite movie ID
-  const saveFavoriteMovieId = async (movieId: string) => {
+  const saveFavoriteMovieId = (movieId: string) => {
     try {
       if (!favoriteMovieIds.includes(movieId)) {
         const updatedFavorites = [...favoriteMovieIds, movieId];
         setFavoriteMovieIds(updatedFavorites);
-        await AsyncStorage.setItem(
-          FAVORITES_KEY,
-          JSON.stringify(updatedFavorites),
-        );
+        storage.set(FAVORITES_KEY, JSON.stringify(updatedFavorites));
       }
     } catch (error) {
       console.error('Error saving favorite movie ID:', error);
@@ -60,14 +57,16 @@ export const FavoriteMoviesProvider: React.FC<FavoritesProviderProps> = ({
   };
 
   // Remove a favorite movie ID
-  const removeFavoriteMovieId = async (movieId: string) => {
+  const removeFavoriteMovieId = (movieId: string) => {
     try {
+      const favoriteMovieIds = JSON.parse(
+        storage.getString(FAVORITES_KEY) || '[]',
+      ) as Array<string>;
+
       const updatedFavorites = favoriteMovieIds.filter(id => id != movieId);
+
       setFavoriteMovieIds(updatedFavorites);
-      await AsyncStorage.setItem(
-        FAVORITES_KEY,
-        JSON.stringify(updatedFavorites),
-      );
+      storage.set(FAVORITES_KEY, JSON.stringify(updatedFavorites));
     } catch (error) {
       console.error('Error removing favorite movie ID:', error);
     }
