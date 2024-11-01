@@ -1,5 +1,4 @@
 {
-  "Login": "Login",
   "Popular": "Popular",
   "Dark Theme": "Dark Theme",
   "Home": "Home",
@@ -15,5 +14,22 @@
   "Language": "Language",
   "English": "English",
   "Malay": "Malay",
-  "Help": "Help"
+  "Help": "Help",
+  "Login": "Login",
+  "Sign Up": "Sign Up",
+  "Email is required": "Email is required",
+  "Email is invalid": "Email is invalid",
+  "Password is required": "Password is required",
+  "Email": "Email",
+  "Password": "Password",
+  "Haven't made an account?": "Haven't made an account?",
+  "Username is required": "Username is required",
+  "Password must be at least 6 characters": "Password must be at least 6 characters",
+  "Username": "Username",
+  "Already have an account?": "Already have an account?",
+  "Create Account": "Create Account",
+  "User already exists": "User already exists",
+  "An unexpected error occurred. Please try again.": "An unexpected error occurred. Please try again.",
+  "Invalid credentials": "Invalid credentials",
+  "Logout": "Logout"
 }

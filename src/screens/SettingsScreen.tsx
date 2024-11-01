@@ -1,14 +1,16 @@
-import {StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import {Text, Switch, Menu, Button, Icon, Avatar} from 'react-native-paper';
 import {useAppTheme} from '../hooks/useAppTheme';
 import i18n from '../../i18n';
 import {useTranslation} from 'react-i18next';
 import ProfileAvatar from '../assets/icons/Profile-Avatar.svg';
+import {useAuth} from '../hooks/useAuth';
 
 const SettingsScreen = () => {
   const {t} = useTranslation();
   const {theme, toggleTheme} = useAppTheme();
+  const {user, logout} = useAuth();
 
   const [visible, setVisible] = useState(false);
 
@@ -27,8 +29,8 @@ const SettingsScreen = () => {
       <View style={styles.profileContainer}>
         <Avatar.Image size={90} source={() => <ProfileAvatar />} />
         <View style={styles.profileDetailsContainer}>
-          <Text style={styles.profileName}>{t('Worlder')}</Text>
-          <Text style={styles.profileEmail}>{t('worlder@wolonote.com')}</Text>
+          <Text style={styles.profileName}>{user?.username || ''}</Text>
+          <Text style={styles.profileEmail}>{user?.email || ''}</Text>
         </View>
       </View>
 
@@ -87,6 +89,15 @@ const SettingsScreen = () => {
             </Text>
           </View>
         </View>
+
+        <View style={[styles.switchContainer, styles.logoutContainer]}>
+          <Pressable style={styles.labelContainer} onPress={logout}>
+            <Icon source="logout" size={24} color={theme.colors.onSurface} />
+            <Text style={[styles.label, {color: theme.colors.onSurface}]}>
+              {t('Logout')}
+            </Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -136,5 +147,8 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
+  },
+  logoutContainer: {
+    marginTop: 8,
   },
 });

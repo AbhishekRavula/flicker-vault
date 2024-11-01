@@ -3,6 +3,12 @@ export type RootStackParamList = {
   Details: {movie: Movie};
 };
 
+export type AuthStackParamList = {
+  Landing: undefined;
+  Login: undefined;
+  Signup: undefined;
+};
+
 export type TabParamList = {
   Home: undefined;
   Search: undefined;

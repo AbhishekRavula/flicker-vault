@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {ActivityIndicator} from 'react-native-paper';
 import '../../i18n';
 import {NavigationContainer} from '@react-navigation/native';
 import AppNavigator from './AppNavigator';
@@ -13,25 +12,13 @@ import {fetchGenreNamesofMovies} from '../services/movieService';
 import {useAppTheme} from '../hooks/useAppTheme';
 import {FavoriteMoviesProvider} from '../contexts/FavoriteMoviesContext';
 import {RootStackParamList} from '../constants/types';
+import {useAuth} from '../hooks/useAuth';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const {theme} = useAppTheme();
-
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [loading, setLoading] = useState(false);
-
-  // useEffect(() => {
-  //   const checkAuthStatus = async () => {
-  //     // const token = await AsyncStorage.getItem('userToken');
-  //     const token = true;
-  //     setIsAuthenticated(!!token);
-  //     setLoading(false);
-  //   };
-
-  //   checkAuthStatus();
-  // }, []);
+  const {isLoggedIn} = useAuth();
 
   const genres = useQuery({
     queryKey: ['genreNamesofMovies'],
@@ -43,20 +30,12 @@ function RootNavigator() {
         return acc;
       }, {} as Record<number, string>);
     },
-    enabled: isAuthenticated,
+    enabled: isLoggedIn,
   });
-
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={theme.colors.primary} />
-      </View>
-    );
-  }
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? (
+      {isLoggedIn ? (
         <FavoriteMoviesProvider>
           <GenreContext.Provider value={genres.data || {}}>
             <RootStack.Navigator>

@@ -1,5 +1,4 @@
 {
-  "Login": "Log Masuk",
   "Popular": "Popular",
   "Dark Theme": "Tema Gelap",
   "Home": "Laman Utama",
@@ -15,5 +14,22 @@
   "Language": "Bahasa",
   "English": "Inggeris",
   "Malay": "Melayu",
-  "Help": "Bantuan"
+  "Help": "Bantuan",
+  "Login": "Log Masuk",
+  "Sign Up": "Daftar",
+  "Email is required": "E-mel diperlukan",
+  "Email is invalid": "E-mel tidak sah",
+  "Password is required": "Kata laluan diperlukan",
+  "Email": "E-mel",
+  "Password": "Kata Laluan",
+  "Haven't made an account?": "Belum ada akaun?",
+  "Username is required": "Nama pengguna diperlukan",
+  "Password must be at least 6 characters": "Kata laluan mesti sekurang-kurangnya 6 aksara",
+  "Username": "Nama Pengguna",
+  "Already have an account?": "Sudah ada akaun?",
+  "Create Account": "Cipta Akaun",
+  "User already exists": "Pengguna sudah wujud",
+  "An unexpected error occurred. Please try again.": "Ralat tidak dijangka berlaku. Sila cuba lagi.",
+  "Invalid credentials": "Kredensial tidak sah",
+  "Logout": "Log Keluar"
   }
