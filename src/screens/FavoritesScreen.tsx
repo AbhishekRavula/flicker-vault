@@ -46,7 +46,8 @@ const MovieCard = ({movie, onRemove}: {movie: Movie; onRemove: () => void}) => {
           numberOfLines={2}>
           {movie.title}
         </Text>
-        <Text style={styles.movieYear}>
+        <Text
+          style={[styles.movieYear, {color: theme.colors.onSurfaceVariant}]}>
           {new Date(movie.release_date).getFullYear()}
         </Text>
       </View>
@@ -175,7 +176,6 @@ const styles = StyleSheet.create({
   movieYear: {
     fontSize: 14,
     fontWeight: '400',
-    color: '#969696',
   },
 });
 

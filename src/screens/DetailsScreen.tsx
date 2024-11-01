@@ -64,21 +64,51 @@ const DetailsScreen = ({route, navigation}: Props) => {
         </View>
 
         <View style={styles.detailsSubTextContainer}>
-          <Text style={styles.detailsSubText}>{movie.release_date}</Text>
-          <Divider style={styles.divider} />
-          <Text style={styles.detailsSubText}>
+          <Text
+            style={[
+              styles.detailsSubText,
+              {color: theme.colors.onSurfaceVariant},
+            ]}>
+            {movie.release_date}
+          </Text>
+          <Divider
+            style={[
+              styles.divider,
+              {backgroundColor: theme.colors.onSurfaceVariant},
+            ]}
+          />
+          <Text
+            style={[
+              styles.detailsSubText,
+              {color: theme.colors.onSurfaceVariant},
+            ]}>
             {movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}
           </Text>
-          <Divider style={styles.divider} />
+          <Divider
+            style={[
+              styles.divider,
+              {backgroundColor: theme.colors.onSurfaceVariant},
+            ]}
+          />
           {movieGenreIds.map((id, index) => {
             const genreName = genres[id];
             return genreName ? (
               <React.Fragment key={id}>
-                <Text style={styles.detailsSubText} numberOfLines={1}>
+                <Text
+                  style={[
+                    styles.detailsSubText,
+                    {color: theme.colors.onSurfaceVariant},
+                  ]}
+                  numberOfLines={1}>
                   {genreName}
                 </Text>
                 {index !== movieGenreIds.length - 1 && (
-                  <Divider style={styles.divider} />
+                  <Divider
+                    style={[
+                      styles.divider,
+                      {backgroundColor: theme.colors.onSurfaceVariant},
+                    ]}
+                  />
                 )}
               </React.Fragment>
             ) : null;
@@ -116,12 +146,10 @@ const styles = StyleSheet.create({
   detailsSubText: {
     fontWeight: '400',
     fontSize: 12,
-    color: '#969696',
   },
   divider: {
     width: 1,
     height: 14,
-    backgroundColor: '#969696',
     marginHorizontal: 8,
   },
   title: {

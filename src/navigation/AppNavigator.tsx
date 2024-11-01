@@ -10,7 +10,7 @@ import FavoritesIcon from '../assets/icons/Favorites.svg';
 import SettingsIcon from '../assets/icons/Settings.svg';
 import {useAppTheme} from '../hooks/useAppTheme';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {TabParamList} from '../constants/types';
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -27,7 +27,16 @@ function AppNavigator() {
         tabBarInactiveTintColor: theme.colors.onSurfaceVariant,
         tabBarStyle: {
           ...styles.tabBarStyle,
-          backgroundColor: theme.colors.elevation.level1,
+          backgroundColor: theme.colors.surface,
+          ...Platform.select({
+            ios: {
+              shadowColor: '#434343',
+              shadowOffset: {width: 0, height: -4},
+              shadowOpacity: 0.1,
+              shadowRadius: 4,
+            },
+            android: {elevation: 5},
+          }),
         },
         tabBarLabelStyle: styles.tabBarLabelStyle,
         headerStyle: {backgroundColor: theme.colors.surface},

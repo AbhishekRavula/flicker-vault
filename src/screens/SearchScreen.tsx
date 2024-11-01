@@ -130,6 +130,7 @@ const SearchScreen = ({navigation}: ProfileScreenProps) => {
     <View style={[styles.container, {backgroundColor: theme.colors.surface}]}>
       <Searchbar
         placeholder={t('Search for a title...')}
+        placeholderTextColor={theme.colors.primary}
         onChangeText={handleSearch}
         value={searchInput}
         style={styles.searchbar}

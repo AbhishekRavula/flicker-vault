@@ -30,11 +30,23 @@ const fontConfig = {
 const LightTheme: MD3Theme = {
   ...MD3LightTheme,
   fonts: configureFonts({config: fontConfig}),
+  colors: {
+    ...MD3LightTheme.colors,
+    primary: '#32A873',
+    onSurfaceVariant: '#969696',
+  },
 };
 
 const DarkerTheme: MD3Theme = {
   ...MD3DarkTheme,
   fonts: configureFonts({config: fontConfig}),
+  colors: {
+    ...MD3DarkTheme.colors,
+    primary: '#32A873',
+    surface: '#121212',
+    onSurface: '#F3F3F3',
+    onSurfaceVariant: '#969696',
+  },
 };
 
 const APP_THEME_KEY = 'app-theme';
