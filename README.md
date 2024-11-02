@@ -1,79 +1,105 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# FlickerVault - Movie App 🎥
 
-# Getting Started
+**FlickerVault** is a user-friendly movie application built with **React Native** that fetches movie data from **The Movie Database (TMDB) API**. This app demonstrates the integration of APIs, creation of a seamless UI, state management, and local storage for features like authentication, favorites, and theming preferences.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Table of Contents
 
-## Step 1: Start the Metro Server
+1. [Features](#features)
+2. [Installation](#installation)
+3. [Setup and Configuration](#setup-and-configuration)
+4. [Running the App](#running-the-app)
+5. [Technologies Used](#technologies-used)
+6. [Additional Notes](#additional-notes)
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+---
 
-To start Metro, run the following command from the _root_ of your React Native project:
+## Features
 
-```bash
-# using npm
-npm start
+1. **Home Screen**: Displays a list of popular movies with their posters.
+2. **Details Screen**: Selecting a movie navigates to a detailed view showcasing:
+   - Movie poster, title, overview, release date, rating, genres, and an option to mark it as a favorite.
+3. **Search Screen**: Users can search for movies and utilize infinite scrolling to load more results as they scroll.
+4. **Favorites**: Users can manage their list of favorite movies.
+5. **Settings**: Includes:
+   - **Theme Toggle**: Switch between dark and light modes.
+   - **Language Settings**: Supports English and Malay (Singapore).
+6. **Authentication**: Simulated signup and login features using local storage.
 
-# OR using Yarn
-yarn start
-```
+---
 
-## Step 2: Start your Application
+## Installation
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+1. **Clone the Repository**
 
-### For Android
+   ```bash
+   git clone https://github.com/yourusername/FlickerVault.git
+   cd FlickerVault
+   ```
 
-```bash
-# using npm
-npm run android
+2. **Install Dependencies**
 
-# OR using Yarn
-yarn android
-```
+   ```bash
+   npm install
+   ```
 
-### For iOS
+3. **Set up Git LFS (for APK tracking)**
+   ```bash
+   git lfs install
+   git lfs track "*.apk"
+   ```
 
-```bash
-# using npm
-npm run ios
+---
 
-# OR using Yarn
-yarn ios
-```
+## Setup and Configuration
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+1. **API Token**: Obtain a TMDB Read Access Token from [TMDB API](https://www.themoviedb.org/documentation/api) and add it to a `.env` file:
+   ```env
+   TMDB_API_TOKEN=your_api_token_here
+   ```
+2. **Environment Variables**: Ensure to load the `.env` file before running the app (handled by the dotenv library).
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+3. **Language Configuration**: Language files are set up in `src/locales/` for English and Malay (Singapore).
 
-## Step 3: Modifying your App
+---
 
-Now that you have successfully run the app, let's modify it.
+## Running the App
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+1. **For Android**:
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+   ```bash
+   npm run android
+   ```
 
-## Congratulations! :tada:
+2. **For iOS**:
 
-You've successfully run and modified your React Native App. :partying_face:
+   ```bash
+   npm run ios
+   ```
 
-### Now what?
+3. **To Build APK**:
+   ```bash
+   cd android
+   ./gradlew assembleRelease
+   ```
+   The APK will be generated in `android/app/build/outputs/apk/release/app-release.apk`.
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+---
 
-# Troubleshooting
+## Technologies Used
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+- **React Native** (React Native CLI)
+- **TypeScript**
+- **React Navigation** for screen navigation
+- **MMKV** for fast local storage (authentication and favorites)
+- **React Query** for efficient data fetching and caching
+- **react-native-paper** for UI components and theming
+- **i18n** for internationalization (English and Malay)
+- **Git LFS** for managing APK files in the repository
 
-# Learn More
+---
 
-To learn more about React Native, take a look at the following resources:
+## Additional Notes
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+- **Favorites and Authentication** are stored using MMKV, allowing efficient local data storage.
+- **Theming**: FlickerVault supports dark and light themes, customizable from the Settings screen.
+- **Infinite Scrolling**: Implemented for loading additional movie search results.
