@@ -3,12 +3,12 @@ import React, {useEffect} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Divider, Icon, Text} from 'react-native-paper';
 import FastImage from 'react-native-fast-image';
-import {useGenres} from '../contexts/GenreContext';
 import {useAppTheme} from '../hooks/useAppTheme';
 import {useFavoriteMovies} from '../hooks/useFavoriteMovies';
 import {MovieBackdropSize} from '../constants/enums';
 import {getImageUrl} from '../utils/commonUtils';
 import {RootStackParamList} from '../constants/types';
+import {useGenres} from '../hooks/useGenres';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 

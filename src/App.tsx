@@ -3,6 +3,7 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import RootNavigator from './navigation/RootNavigator';
 import {ThemeProvider} from './contexts/ThemeContext';
 import {AuthProvider} from './contexts/AuthContext';
+import '../i18n';
 
 const queryClient = new QueryClient();
 

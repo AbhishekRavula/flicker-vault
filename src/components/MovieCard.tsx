@@ -38,7 +38,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie}) => {
         <FastImage
           style={[
             styles.poster,
-            {width: viewHeight * (2 / 3), height: viewHeight},
+            {width: viewHeight * (2 / 3), height: viewHeight}, // 2:3 aspect ratio
           ]}
           source={{uri: getImageUrl(MoviePosterSize.w500, movie.poster_path)}}
           resizeMode={FastImage.resizeMode.contain}

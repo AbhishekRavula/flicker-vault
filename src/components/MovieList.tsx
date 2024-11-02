@@ -1,7 +1,8 @@
 import {FlatList, StyleSheet, View} from 'react-native';
-import {Movie} from '../screens/HomeScreen';
-import {Text, useTheme} from 'react-native-paper';
+import {Text} from 'react-native-paper';
 import MovieCard from './MovieCard';
+import {Movie} from '../constants/types';
+import {useAppTheme} from '../hooks/useAppTheme';
 
 interface MovieListProps {
   title: string;
@@ -9,7 +10,7 @@ interface MovieListProps {
 }
 
 const MovieList: React.FC<MovieListProps> = ({title, movies}) => {
-  const theme = useTheme();
+  const {theme} = useAppTheme();
 
   return (
     <View style={styles.listContainer}>

@@ -2,7 +2,7 @@ import {useContext} from 'react';
 import {
   FavoritesContext,
   FavoritesContextType,
-} from '../contexts/FavoriteMoviesContext';
+} from '../contexts/FavMoviesContext';
 
 // Custom hook for using the FavoritesContext
 export const useFavoriteMovies = (): FavoritesContextType => {

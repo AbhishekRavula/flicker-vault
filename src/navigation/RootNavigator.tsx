@@ -1,16 +1,13 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import '../../i18n';
+import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import AppNavigator from './AppNavigator';
 import AuthNavigator from './AuthNavigator';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DetailsScreen from '../screens/DetailsScreen';
-import {Genre, GenreContext} from '../contexts/GenreContext';
-import {useQuery} from '@tanstack/react-query';
-import {fetchGenreNamesofMovies} from '../services/movieService';
+import {GenresProvider} from '../contexts/GenresContext';
 import {useAppTheme} from '../hooks/useAppTheme';
-import {FavoriteMoviesProvider} from '../contexts/FavoriteMoviesContext';
+import {FavoriteMoviesProvider} from '../contexts/FavMoviesContext';
 import {RootStackParamList} from '../constants/types';
 import {useAuth} from '../hooks/useAuth';
 
@@ -20,24 +17,11 @@ function RootNavigator() {
   const {theme} = useAppTheme();
   const {isLoggedIn} = useAuth();
 
-  const genres = useQuery({
-    queryKey: ['genreNamesofMovies'],
-    queryFn: fetchGenreNamesofMovies,
-    select: data => {
-      const genres = (data?.genres || []) as Genre[];
-      return genres.reduce((acc, genre) => {
-        acc[genre.id] = genre.name;
-        return acc;
-      }, {} as Record<number, string>);
-    },
-    enabled: isLoggedIn,
-  });
-
   return (
     <NavigationContainer>
       {isLoggedIn ? (
         <FavoriteMoviesProvider>
-          <GenreContext.Provider value={genres.data || {}}>
+          <GenresProvider>
             <RootStack.Navigator>
               <RootStack.Screen
                 name="Main"
@@ -55,7 +39,7 @@ function RootNavigator() {
                 }}
               />
             </RootStack.Navigator>
-          </GenreContext.Provider>
+          </GenresProvider>
         </FavoriteMoviesProvider>
       ) : (
         <AuthNavigator />

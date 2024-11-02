@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Keyboard} from 'react-native';
 import {Button, HelperText, Text, TextInput} from 'react-native-paper';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useAppTheme} from '../../hooks/useAppTheme';
@@ -50,6 +50,7 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
 
   const handleLogin = () => {
     if (validateForm()) {
+      Keyboard.dismiss();
       const error = login(email, password);
       if (error) {
         setErrors({...errors, general: error});

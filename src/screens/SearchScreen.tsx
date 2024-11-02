@@ -147,7 +147,8 @@ const SearchScreen = ({navigation}: ProfileScreenProps) => {
             <FastImage
               style={[styles.cardWrapper]}
               source={{
-                uri: getImageUrl(MoviePosterSize.w500, item.poster_path),
+                uri: getImageUrl(MoviePosterSize.w342, item.poster_path),
+                priority: 'high',
               }}
               resizeMode={FastImage.resizeMode.contain}
             />

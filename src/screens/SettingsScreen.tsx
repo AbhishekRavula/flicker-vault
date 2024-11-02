@@ -6,6 +6,7 @@ import i18n from '../../i18n';
 import {useTranslation} from 'react-i18next';
 import ProfileAvatar from '../assets/icons/Profile-Avatar.svg';
 import {useAuth} from '../hooks/useAuth';
+import {toggleLanguage} from '../utils/languagueUtils';
 
 const SettingsScreen = () => {
   const {t} = useTranslation();
@@ -18,9 +19,9 @@ const SettingsScreen = () => {
 
   const closeMenu = () => setVisible(false);
 
-  const changeLanguague = (newLanguague: string) => {
-    i18n.changeLanguage(newLanguague);
+  const changeLanguague = () => {
     closeMenu();
+    toggleLanguage();
   };
 
   return (
@@ -66,14 +67,8 @@ const SettingsScreen = () => {
                 {i18n.language === 'en' ? t('English') : t('Malay')}
               </Button>
             }>
-            <Menu.Item
-              onPress={() => changeLanguague('en')}
-              title={t('English')}
-            />
-            <Menu.Item
-              onPress={() => changeLanguague('ms')}
-              title={t('Malay')}
-            />
+            <Menu.Item onPress={changeLanguague} title={t('English')} />
+            <Menu.Item onPress={changeLanguague} title={t('Malay')} />
           </Menu>
         </View>
 

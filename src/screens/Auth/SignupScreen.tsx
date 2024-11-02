@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Keyboard} from 'react-native';
 import {Button, HelperText, Text, TextInput} from 'react-native-paper';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useAppTheme} from '../../hooks/useAppTheme';
@@ -63,6 +63,7 @@ const SignupScreen: React.FC<Props> = ({navigation}) => {
 
   const handleSignUp = () => {
     if (validateForm()) {
+      Keyboard.dismiss();
       const error = signup(username, email, password);
       if (error) {
         setErrors({...errors, general: error});
