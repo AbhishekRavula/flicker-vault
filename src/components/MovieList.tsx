@@ -33,7 +33,6 @@ export default MovieList;
 const styles = StyleSheet.create({
   listContainer: {
     marginBottom: 10,
-    flex: 0.3,
   },
   sectionTitle: {
     fontSize: 20,

@@ -1,9 +1,18 @@
-import {Pressable, SafeAreaView, StyleSheet, View} from 'react-native';
+import {
+  Dimensions,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useQuery} from '@tanstack/react-query';
 import {
+  fetchNowPlayingMovies,
   fetchPopularMovies,
+  fetchTopRatedMovies,
   fetchTrendingMovies,
+  fetchUpcomingMovies,
 } from '../services/movieService';
 import MovieList from '../components/MovieList';
 import {useAppTheme} from '../hooks/useAppTheme';
@@ -15,6 +24,8 @@ import {Movie, RootStackParamList} from '../constants/types';
 
 type ProfileScreenProps = NativeStackScreenProps<RootStackParamList>;
 
+const {height} = Dimensions.get('window');
+
 const HomeScreen = ({navigation}: ProfileScreenProps) => {
   const {theme} = useAppTheme();
   const {t} = useTranslation();
@@ -24,12 +35,26 @@ const HomeScreen = ({navigation}: ProfileScreenProps) => {
     queryFn: () => fetchPopularMovies(),
   });
 
+  const nowPlayingMovies = useQuery({
+    queryKey: ['nowPlayingMovies'],
+    queryFn: () => fetchNowPlayingMovies(),
+  });
+
+  const topRatedMovies = useQuery({
+    queryKey: ['topRatedMovies'],
+    queryFn: () => fetchTopRatedMovies(),
+  });
+
+  const upcomingMovies = useQuery({
+    queryKey: ['upcomingMovies'],
+    queryFn: () => fetchUpcomingMovies(),
+  });
+
   const trendingMovies = useQuery({
     queryKey: ['trendingMovies'],
     queryFn: fetchTrendingMovies,
   });
 
-  const moviesList = popularMovies.data?.results || [];
   const wallPosterMovie = trendingMovies.data?.results?.[0] as
     | Movie
     | undefined;
@@ -42,21 +67,40 @@ const HomeScreen = ({navigation}: ProfileScreenProps) => {
   return (
     <SafeAreaView
       style={[styles.container, {backgroundColor: theme.colors.surface}]}>
-      <Pressable style={styles.wallPosterContainer} onPress={onWallPosterPress}>
-        {wallPosterMovie && (
-          <FastImage
-            source={{
-              uri: getImageUrl(
-                MoviePosterSize.w780,
-                wallPosterMovie.poster_path,
-              ),
-            }}
-            style={styles.wallPoster}
-            resizeMode={FastImage.resizeMode.cover}
-          />
-        )}
-      </Pressable>
-      <MovieList title={t('Popular')} movies={moviesList} />
+      <ScrollView>
+        <Pressable
+          style={styles.wallPosterContainer}
+          onPress={onWallPosterPress}>
+          {wallPosterMovie && (
+            <FastImage
+              source={{
+                uri: getImageUrl(
+                  MoviePosterSize.w780,
+                  wallPosterMovie.poster_path,
+                ),
+              }}
+              style={styles.wallPoster}
+              resizeMode={FastImage.resizeMode.cover}
+            />
+          )}
+        </Pressable>
+        <MovieList
+          title={t('Popular')}
+          movies={popularMovies.data?.results || []}
+        />
+        <MovieList
+          title={t('Now Playing')}
+          movies={nowPlayingMovies.data?.results || []}
+        />
+        <MovieList
+          title={t('Upcoming')}
+          movies={upcomingMovies.data?.results || []}
+        />
+        <MovieList
+          title={t('Top Rated')}
+          movies={topRatedMovies.data?.results || []}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -69,7 +113,7 @@ const styles = StyleSheet.create({
   },
   wallPosterContainer: {
     width: '100%',
-    flex: 0.7,
+    height: height * 0.6, // 60% of screen height
     marginBottom: 10,
   },
 

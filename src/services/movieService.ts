@@ -13,6 +13,45 @@ export const fetchPopularMovies = async (pageNum = 1) => {
   }
 };
 
+// Get now playing movies
+export const fetchNowPlayingMovies = async (pageNum = 1) => {
+  try {
+    const response = await apiClient.get('/movie/now_playing', {
+      params: {language: 'en-US', page: pageNum},
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching popular movies:', error);
+    throw error;
+  }
+};
+
+// Get top rated movies
+export const fetchTopRatedMovies = async (pageNum = 1) => {
+  try {
+    const response = await apiClient.get('/movie/top_rated', {
+      params: {language: 'en-US', page: pageNum},
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching popular movies:', error);
+    throw error;
+  }
+};
+
+// Get upcoming movies
+export const fetchUpcomingMovies = async (pageNum = 1) => {
+  try {
+    const response = await apiClient.get('/movie/upcoming', {
+      params: {language: 'en-US', page: pageNum},
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching popular movies:', error);
+    throw error;
+  }
+};
+
 // Get trending movies
 export const fetchTrendingMovies = async () => {
   try {
