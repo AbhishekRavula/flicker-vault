@@ -46,7 +46,7 @@ jobs:
           cd ./android
           ./gradlew assembleRelease
 
-      - name: Upload application
+      - name: Upload APK as artifact
         uses: actions/upload-artifact@v3
         with:
           name: app
@@ -60,10 +60,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Download APK artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: app # This should match the name of the artifact uploaded in the 'build' job
+
       - name: Upload APK to Appetize.io
         uses: appetizeio/github-action-appetize@v1.0.3
         with:
           apiToken: ${{ secrets.APPETIZE_API_TOKEN }} # Add your Appetize.io API token in GitHub Secrets
-          appFile: ./android/app/build/outputs/apk/release/app-release.apk # Path to the APK file
+          appFile: ./app-release.apk # This is the path to the downloaded artifact
           publicKey: ${{ secrets.APPETIZE_PUBLIC_KEY }} # Optional: Use this if you want to update an existing app
           platform: android # Specify the platform
