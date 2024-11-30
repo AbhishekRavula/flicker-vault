@@ -1,0 +1,74 @@
+name: 'Build Android app and Upload to Appetize'
+
+on:
+  workflow_dispatch: # Allows manual triggering in GitHub Actions
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: 'gradle'
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Run npm Install
+        run: |
+          npm i -g corepack
+          npm install
+
+      - name: Grant permission to Gradlew
+        run: chmod +x ./android/gradlew
+
+      - name: Set Gradle options for memory
+        run: echo "org.gradle.jvmargs=-Xmx4096m -Dfile.encoding=UTF-8" >> ./android/gradle.properties # Set Gradle memory options
+
+      - name: Build application
+        env:
+          GRADLE_OPTS: '-Xmx4096m'
+        run: |
+          cd ./android
+          ./gradlew assembleRelease
+
+      - name: Upload application
+        uses: actions/upload-artifact@v3
+        with:
+          name: app
+          path: ./android/app/build/outputs/apk/release/app-release.apk
+          retention-days: 3
+
+  upload_to_appetize:
+    runs-on: ubuntu-latest
+    needs: build # Ensure the build job runs before this
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Upload APK to Appetize.io
+        uses: appetizeio/github-action-appetize@v1.0.3
+        with:
+          api-token: ${{ secrets.APPETIZE_API_TOKEN }} # Add your Appetize.io API token in GitHub Secrets
+          file: ./android/app/build/outputs/apk/release/app-release.apk # Path to the APK file
+          public-key: ${{ secrets.APPETIZE_PUBLIC_KEY }} # Optional: Use this if you want to update an existing app
