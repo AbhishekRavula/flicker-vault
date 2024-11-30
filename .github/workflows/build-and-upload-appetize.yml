@@ -63,6 +63,7 @@ jobs:
       - name: Upload APK to Appetize.io
         uses: appetizeio/github-action-appetize@v1.0.3
         with:
-          api-token: ${{ secrets.APPETIZE_API_TOKEN }} # Add your Appetize.io API token in GitHub Secrets
-          file: ./android/app/build/outputs/apk/release/app-release.apk # Path to the APK file
-          public-key: ${{ secrets.APPETIZE_PUBLIC_KEY }} # Optional: Use this if you want to update an existing app
+          apiToken: ${{ secrets.APPETIZE_API_TOKEN }} # Add your Appetize.io API token in GitHub Secrets
+          appFile: ./android/app/build/outputs/apk/release/app-release.apk # Path to the APK file
+          publicKey: ${{ secrets.APPETIZE_PUBLIC_KEY }} # Optional: Use this if you want to update an existing app
+          platform: android # Specify the platform
