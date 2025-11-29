@@ -172,9 +172,7 @@ const SearchScreen = ({navigation}: ProfileScreenProps) => {
         style={styles.searchbar}
         iconColor={theme.colors.primary}
         inputStyle={{color: theme.colors.onSurface}}
-        traileringIcon={'magnify'}
         traileringIconColor={theme.colors.primary}
-        icon={() => {}} // To remove the left search icon
       />
       <FlatList
         data={allMovies}
