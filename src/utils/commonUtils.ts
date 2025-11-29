@@ -16,5 +16,5 @@ export function debounce<T extends (...args: any[]) => void>(
 }
 
 export const getImageUrl = (size: string, imageId: string) => {
-  return `https://image.tmdb.org/t/p/${size}/${imageId}.jpg`;
+  return `https://image.tmdb.org/t/p/${size}/${imageId}`;
 };
