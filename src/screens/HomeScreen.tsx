@@ -80,7 +80,7 @@ const HomeScreen = ({navigation}: ProfileScreenProps) => {
                 ),
               }}
               style={styles.wallPoster}
-              resizeMode={FastImage.resizeMode.cover}
+              resizeMode={FastImage.resizeMode.stretch}
             />
           )}
         </Pressable>

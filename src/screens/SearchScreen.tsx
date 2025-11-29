@@ -123,6 +123,42 @@ const SearchScreen = ({navigation}: ProfileScreenProps) => {
     navigation.navigate('Details', {movie});
   };
 
+  const renderMovieItem = useCallback(
+    ({item}: {item: Movie}) => {
+      return (
+        <Pressable onPress={() => navigateToMovieDetails(item)} key={item.id}>
+          {item.poster_path ? (
+            <FastImage
+              style={[styles.cardWrapper]}
+              source={{
+                uri: getImageUrl(MoviePosterSize.w342, item.poster_path),
+                priority: 'high',
+              }}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+          ) : (
+            <View
+              style={[
+                styles.cardWrapper,
+                styles.placeholderCard,
+                {backgroundColor: theme.colors.surfaceVariant},
+              ]}>
+              <Text
+                style={{
+                  color: theme.colors.onSurfaceVariant,
+                  textAlign: 'center',
+                  paddingHorizontal: 8,
+                }}>
+                {item.title}
+              </Text>
+            </View>
+          )}
+        </Pressable>
+      );
+    },
+    [theme],
+  );
+
   const allMovies = (data?.pages.flatMap(page => page.results) ??
     []) as Movie[];
 
@@ -142,18 +178,7 @@ const SearchScreen = ({navigation}: ProfileScreenProps) => {
       />
       <FlatList
         data={allMovies}
-        renderItem={({item}) => (
-          <Pressable onPress={() => navigateToMovieDetails(item)} key={item.id}>
-            <FastImage
-              style={[styles.cardWrapper]}
-              source={{
-                uri: getImageUrl(MoviePosterSize.w342, item.poster_path),
-                priority: 'high',
-              }}
-              resizeMode={FastImage.resizeMode.contain}
-            />
-          </Pressable>
-        )}
+        renderItem={renderMovieItem}
         keyExtractor={item => item.id}
         numColumns={COLUMN_COUNT}
         contentContainerStyle={styles.listContent}
@@ -184,6 +209,10 @@ const styles = StyleSheet.create({
     height: CARD_HEIGHT,
     margin: SPACING / 2,
     borderRadius: 8,
+  },
+  placeholderCard: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   loaderContainer: {
     paddingVertical: SPACING * 2,
